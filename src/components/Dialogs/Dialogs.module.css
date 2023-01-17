@@ -1,0 +1,24 @@
+.dialogs{
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}
+
+.dialogsItems{
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+
+.messages{
+  padding: 10px;
+}
+
+.newMessage{
+  margin-top: 30px;
+}
+
+.button{
+  display: block;
+  cursor: pointer;
+}

@@ -1,0 +1,29 @@
+.header{
+  grid-area: h;
+  background-color: green;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  width: 20px;
+}
+
+.loginBlock{
+
+}
+
+.login{
+  text-decoration: none;
+  color: white;
+}
+
+.active{
+  color: gold;
+  text-decoration: none;
+}
+
+.logout{
+  cursor: pointer;
+}

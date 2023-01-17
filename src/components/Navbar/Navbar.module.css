@@ -1,0 +1,26 @@
+.nav{
+  grid-area: n;
+  background-color: burlywood;
+  padding: 20px;
+}
+
+.list{
+  list-style: none;
+  padding: 0;
+}
+
+.link{
+  color: white;
+  text-decoration: none;
+}
+
+.active{
+  color: gold;
+  text-decoration: none;
+}
+
+.links{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

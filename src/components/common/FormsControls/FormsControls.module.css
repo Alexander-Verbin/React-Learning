@@ -1,0 +1,12 @@
+.wrapper{
+  display: block;
+}
+
+.wrapper.error input,
+.wrapper.error textarea{
+  border: 2px solid red;
+}
+
+.wrapper.error span{
+  color: red;
+}
