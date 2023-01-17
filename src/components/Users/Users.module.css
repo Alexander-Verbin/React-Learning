@@ -1,14 +1,6 @@
 .avatar{
   max-width: 20%;
 }
-
-.selectedPage{
-  font-weight: bold;
-}
-
-button{
-  cursor: pointer;
-}
 .users {
   font-weight: 600;
 }
