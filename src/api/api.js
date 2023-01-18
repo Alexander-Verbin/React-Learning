@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const instans = axios.create({
+const baseURL = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
   withCredentials: true,
   headers: {
@@ -10,36 +10,36 @@ const instans = axios.create({
 
 export const usersAPI = {
   getUsers(param1,param2) {
-    return instans.get(`users?page=${param1}&count=${param2}`).then(response => response.data);
+    return baseURL.get(`users?page=${param1}&count=${param2}`).then(response => response.data);
   },
   follow(userId) {
-    return instans.post(`follow/${userId}`);
+    return baseURL.post(`follow/${userId}`);
   },
   unfollow(userId) {
-    return instans.delete(`follow/${userId}`);
+    return baseURL.delete(`follow/${userId}`);
   },
 };
 
 export const profileAPI = {
   getProfile(userId){
-    return instans.get(`profile/${userId}`);
+    return baseURL.get(`profile/${userId}`);
   },
   getStatus(userId){
-    return instans.get(`profile/status/${userId}`);
+    return baseURL.get(`profile/status/${userId}`);
   },
   updateStatus(status){
-    return instans.put(`profile/status`, {status: status});
+    return baseURL.put(`profile/status`, {status: status});
   }
 };
 
 export const authAPI = {
   me(){
-    return instans.get(`auth/me`)
+    return baseURL.get(`auth/me`)
   },
   login(email, password, remeberMe = false){
-    return instans.post(`auth/login`, {email, password, remeberMe});
+    return baseURL.post(`auth/login`, {email, password, remeberMe});
   },
   logout(){
-    return instans.delete(`auth/login`);
+    return baseURL.delete(`auth/login`);
   }
 };
