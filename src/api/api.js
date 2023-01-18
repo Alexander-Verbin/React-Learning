@@ -13,7 +13,7 @@ export const usersAPI = {
     return baseURL.get(`users?page=${param1}&count=${param2}`).then(response => response.data);
   },
   follow(userId) {
-    return baseURL.post(`follow/${userId}`);
+    return baseURL.post(`follow/${userId}`)
   },
   unfollow(userId) {
     return baseURL.delete(`follow/${userId}`);
