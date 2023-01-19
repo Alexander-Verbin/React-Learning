@@ -47,5 +47,8 @@
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
     }
+  },
+  "devDependencies": {
+    "react-test-renderer": "^18.2.0"
   }
 }

@@ -15,9 +15,7 @@ const Paginator = (props) => {
 		<div>
 			{pages.map(p => {
 				return <button className={props.currentPage === (p && s.selectedPage) || ''}
-											 onClick={(e) => {
-												 props.onPageChenged(p)
-											 }}>{p}</button>
+											 onClick={(e) => {props.onPageChenged(p)}}>{p}</button>
 			})}
 		</div>
 	);
