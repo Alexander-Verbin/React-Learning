@@ -14,9 +14,9 @@ const Dialogs = (props) => {
   let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id} />);
   let messagesElements = state.messages.map(m => <Message message={m.message} key={m.id} id={m.id} />);
 
-  let addNewMessage = (values) => {
-    props.sendMessage(values.newMessageBoby)
-  }
+	let addNewMessage = (values) => {
+		props.sendMessage(values.newMessageBody);
+	}
 
   return (
     <div className={s.dialogs}>
@@ -26,7 +26,7 @@ const Dialogs = (props) => {
       <div className={s.messages}>
         {messagesElements}
         <div className={s.newMessage}>
-          <ReduxDialogForm onSubmit={addNewMessage} />
+					<AddMessageFormRedux onSubmit={addNewMessage} />
         </div>
       </div>
     </div>
@@ -34,20 +34,17 @@ const Dialogs = (props) => {
 };
 
 const AddMessageForm = (props) => {
+	return (
+		<form onSubmit={props.handleSubmit}>
+			<div>
+				<Field component="textarea" name="newMessageBody" placeholder="Enter your message" />
+			</div>
+			<div><button>Send</button></div>
+		</form>
+	)
+}
 
-  const maxLength50 = maxLengthCreator(1);
+const AddMessageFormRedux = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
 
-  return (
-    <form onSubmit={props.handleSubmit}>
-      <Field component={Textarea} name='newMessageBoby' placeholder='Enter your message'
-        validate={[required, maxLength50]} />
-      <button className={s.button}>Send</button>
-    </form>
-  );
-};
-
-const ReduxDialogForm = reduxForm({
-  form: 'dialogAddMessageForm'
-})(AddMessageForm)
 
 export default Dialogs;
