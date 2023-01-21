@@ -7,7 +7,6 @@ const User = ({user,followingInProgres,follow,unfollow}) => {
 
     return (
         <div>
-          <span>
             <div>
               <NavLink to={'/profile/' + user.id}>
                 <img className={s.avatar} src={user.photos.small != null ? user.photos.small : avatar} alt="User"/>
@@ -21,18 +20,14 @@ const User = ({user,followingInProgres,follow,unfollow}) => {
                       follow(user.id)
                   }}>Follow</button>}
             </div>
-          </span>
-            <span>
-            <span>
+            <div>
               <div>{user.name}</div>
               <div>{user.status}</div>
-            </span>
-            <span>
+            </div>
+            <div>
               <div>{'user.location.country'}</div>
               <div>{'user.location.city'}</div>
-            </span>
-          </span>
-
+            </div>
         </div>
     );
 };
