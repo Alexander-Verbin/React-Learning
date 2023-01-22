@@ -1,5 +1,5 @@
 import React, {Suspense, lazy} from "react";
-import "./App.css";
+import "./App.scss";
 import {Routes, Route, useParams, BrowserRouter} from "react-router-dom";
 import {initializeApp} from './redux/appReduser';
 import Navbar from "./components/Navbar/Navbar";

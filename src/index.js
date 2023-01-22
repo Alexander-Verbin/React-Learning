@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import React from 'react';
-import './index.css';
+import './index.scss';
 import {SamuraiJSApp} from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

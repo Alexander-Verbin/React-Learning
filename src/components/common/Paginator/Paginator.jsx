@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from "./Paginator.module.css";
+import styles from "./Paginator.module.scss";
 import cn from "classnames";
 
 let Paginator = ({totalItemsCount, pageSize, currentPage, onPageChenged, portionSize = 10}) => {

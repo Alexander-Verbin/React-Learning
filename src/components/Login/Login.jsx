@@ -4,7 +4,7 @@ import {reduxForm} from "redux-form";
 import {required} from "../../utils/validators/validators";
 import {createField, Input} from "../common/FormsControls/FormsControls";
 import {login} from "../../redux/authReduser";
-import s from "./Login.module.css";
+import s from "./Login.module.scss";
 import {Navigate} from "react-router-dom";
 
 const Login = (props) => {

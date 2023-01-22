@@ -1,5 +1,5 @@
 import React from "react";
-import s from './FormsControls.module.css';
+import s from './FormsControls.module.scss';
 import {Field} from "redux-form";
 
 const FormsControl = ({input, meta, child, ...props}) => {

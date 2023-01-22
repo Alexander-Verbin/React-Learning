@@ -1,5 +1,5 @@
 import React from "react";
-import s from './Sett.module.css';
+import s from './Sett.module.scss';
 
 const Sett = () => {
   return (
