@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.0/', withCredentials: true, headers: {
-		'API-KEY': 'e9c013ae-2c87-4fde-adf1-22e6a9826cf8'
+		'API-KEY': '3ee61d9c-e5a8-44cc-8044-af512918a01a'
 	},
 });
 
@@ -23,6 +23,14 @@ export const profileAPI = {
 		return baseURL.get(`profile/status/${userId}`);
 	}, updateStatus(status) {
 		return baseURL.put(`profile/status`, {status: status});
+	}, savePhoto(photoFile) {
+		const formData = new FormData();
+		formData.append("image",photoFile)
+		return baseURL.put(`profile/photo`, formData,{
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		});
 	}
 };
 

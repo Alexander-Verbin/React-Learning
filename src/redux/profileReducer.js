@@ -4,92 +4,112 @@ const ADD_POST = "ADD_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const DELETE_STATUS = "DELETE_STATUS";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 
 let initialState = {
-    posts: [
-        {id: 1, message: "Hi, how are you?", likesCount: "12"},
-        {id: 2, message: "It's my first post", likesCount: "23"},
-    ],
-    profile: null,
-    status: "",
+	posts: [
+		{id: 1, message: "Hi, how are you?", likesCount: "12"},
+		{id: 2, message: "It's my first post", likesCount: "23"},
+	],
+	profile: null,
+	status: "",
 };
 const profileReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case ADD_POST:
-            let newPost = {
-                id: 5,
-                message: action.newPostText,
-                likesCount: 0,
-            };
-            return {
-                ...state,
-                newPostText: "",
-                posts: [...state.posts, newPost],
-            };
-        case SET_USER_PROFILE:
-            return {
-                ...state,
-                profile: action.profile,
-            };
-        case SET_STATUS:
-            return {
-                ...state,
-                status: action.status,
-            };
-        case DELETE_STATUS:
-            return {
-                ...state,
-                posts: state.posts.filter(p => p.id !== action.postId),
-            };
-        default:
-            return state;
-    }
+	switch (action.type) {
+		case ADD_POST:
+			let newPost = {
+				id: 5,
+				message: action.newPostText,
+				likesCount: 0,
+			};
+			return {
+				...state,
+				newPostText: "",
+				posts: [...state.posts, newPost],
+			};
+		case SET_USER_PROFILE:
+			return {
+				...state,
+				profile: action.profile,
+			};
+		case SET_STATUS:
+			return {
+				...state,
+				status: action.status,
+			};
+		case DELETE_STATUS:
+			return {
+				...state,
+				posts: state.posts.filter(p => p.id !== action.postId),
+			};
+		case SAVE_PHOTO_SUCCESS:
+			return {
+				...state,
+				profile: {...state.profile, photos: action.photos},
+			};
+		default:
+			return state;
+	}
 };
 
 export const addPostActionCreator = (newPostText) => {
-    return {
-        type: ADD_POST,
-        newPostText
-    };
+	return {
+		type: ADD_POST,
+		newPostText
+	};
 };
 
 export const setUserProfile = (profile) => {
-    return {
-        type: SET_USER_PROFILE,
-        profile,
-    };
+	return {
+		type: SET_USER_PROFILE,
+		profile,
+	};
 };
 
 export const setStatus = (status) => {
-    return {
-        type: SET_STATUS,
-        status
-    };
+	return {
+		type: SET_STATUS,
+		status
+	};
+};
+
+export const savePhotoSuccess = (photos) => {
+	return {
+		type: SAVE_PHOTO_SUCCESS,
+		photos
+	};
 };
 
 export const deletePost = (postId) => {
-    return {
-        type: DELETE_STATUS,
-        postId
-    };
+	return {
+		type: DELETE_STATUS,
+		postId
+	};
 };
 
 export const getUserProfile = (userId) => async (dispatch) => {
-    let response = await profileAPI.getProfile(userId);
-    dispatch(setUserProfile(response.data));
+	let response = await profileAPI.getProfile(userId);
+	dispatch(setUserProfile(response.data));
 };
 
 export const getStatus = (userId) => async (dispatch) => {
-    let response = await profileAPI.getStatus(userId);
-    dispatch(setStatus(response.data));
+	let response = await profileAPI.getStatus(userId);
+	dispatch(setStatus(response.data));
 
 };
 
 export const updateStatus = (status) => async (dispatch) => {
-    let response = await profileAPI.updateStatus(status);
-    if (response.data.resultCode === 0) {
-        dispatch(setStatus(status));
-    }
+	let response = await profileAPI.updateStatus(status);
+	if (response.data.resultCode === 0) {
+		dispatch(setStatus(status));
+	}
+};
+
+export const savePhoto = (file) => async (dispatch) => {
+	let response = await profileAPI.savePhoto(file);
+	if (response.data.resultCode === 0) {
+		dispatch(savePhotoSuccess(response.data.data.photos));
+	}
 };
 
 export default profileReducer;

@@ -9,3 +9,9 @@
 .avatar{
   max-width: 30%;
 }
+
+.avatarWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
