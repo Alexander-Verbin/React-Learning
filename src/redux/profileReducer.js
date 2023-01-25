@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "ADD_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -109,6 +110,21 @@ export const savePhoto = (file) => async (dispatch) => {
 	let response = await profileAPI.savePhoto(file);
 	if (response.data.resultCode === 0) {
 		dispatch(savePhotoSuccess(response.data.data.photos));
+	}
+};
+
+export const saveProfile = (profile) => async (dispatch,getState) => {
+	const userId = getState().auth.userId
+	const response = await profileAPI.saveProfile(profile);
+	if (response.data.resultCode === 0) {
+		dispatch(getUserProfile(userId));
+	}else {
+		const errorMsg = response.data.messages[0];
+		let contactsName  = errorMsg.split('>')[1].split(')')[0] ;
+		let modified = contactsName.toLowerCase(); // toLowerCase() - перевод в низний регистр
+		const action = stopSubmit('editProfile', { "contacts": { [modified]  : "Не верный формат " + contactsName } } );
+		dispatch(action);
+		return Promise.reject()
 	}
 };
 

@@ -19,18 +19,24 @@ export const usersAPI = {
 export const profileAPI = {
 	getProfile(userId) {
 		return baseURL.get(`profile/${userId}`);
-	}, getStatus(userId) {
+	},
+	getStatus(userId) {
 		return baseURL.get(`profile/status/${userId}`);
-	}, updateStatus(status) {
+	},
+	updateStatus(status) {
 		return baseURL.put(`profile/status`, {status: status});
-	}, savePhoto(photoFile) {
+	},
+	savePhoto(photoFile) {
 		const formData = new FormData();
-		formData.append("image",photoFile)
-		return baseURL.put(`profile/photo`, formData,{
+		formData.append("image", photoFile)
+		return baseURL.put(`profile/photo`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}
 		});
+	},
+	saveProfile(profile) {
+		return baseURL.put(`profile`, profile);
 	}
 };
 

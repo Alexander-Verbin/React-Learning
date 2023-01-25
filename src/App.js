@@ -1,7 +1,7 @@
 import React, {Suspense, lazy} from "react";
 import "./App.scss";
 import {Routes, Route, useParams, BrowserRouter} from "react-router-dom";
-import {initializeApp} from './redux/appReduser';
+import {initializeApp} from './redux/appReducer';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -35,8 +35,10 @@ class App extends React.Component {
 					<Suspense fallback={<Preloader/>}>
 						<Routes>
 							<Route path="/dialogs" element={<DialogsContainer/>}/>
-							<Route path="/profile" element={<ProfileContainer/>}/>
-							<Route path="/profile/:userId" element={<ProfileContainer/>}/>
+							<Route path="/" element={<ProfileContainer/>}/>
+							<Route path="/profile" element={<ProfileContainer/>}>
+								<Route path=":userId" element={<ProfileContainer/>}/>
+							</Route>
 							<Route path="/users" element={<UsersContainer/>}/>
 							<Route path="/news" element={<News/>}/>
 							<Route path="/music" element={<Music/>}/>

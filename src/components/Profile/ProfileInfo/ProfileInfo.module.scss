@@ -15,3 +15,13 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.contacts{
+  &__title{
+    margin: 0;
+  }
+}
+
+.contact{
+  padding-left: 10px;
+}
