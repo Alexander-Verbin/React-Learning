@@ -9,9 +9,11 @@ const baseURL = axios.create({
 export const usersAPI = {
 	getUsers(param1, param2) {
 		return baseURL.get(`users?page=${param1}&count=${param2}`).then(response => response.data);
-	}, follow(userId) {
+	},
+	follow(userId) {
 		return baseURL.post(`follow/${userId}`);
-	}, unfollow(userId) {
+	},
+	unfollow(userId) {
 		return baseURL.delete(`follow/${userId}`);
 	},
 };
@@ -43,9 +45,18 @@ export const profileAPI = {
 export const authAPI = {
 	me() {
 		return baseURL.get(`auth/me`)
-	}, login(email, password, remeberMe = false) {
-		return baseURL.post(`auth/login`, {email, password, remeberMe});
-	}, logout() {
+	},
+	login(email, password, rememberMe = false, captcha = null) {
+		return baseURL.post(`auth/login`, {email, password, rememberMe, captcha});
+	},
+	logout() {
 		return baseURL.delete(`auth/login`);
 	}
+};
+
+export const securityAPI = {
+	getCaptchaUrl() {
+		return baseURL.get(`security/get-captcha-url`)
+	},
+
 };
