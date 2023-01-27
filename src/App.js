@@ -1,6 +1,6 @@
 import React, {Suspense, lazy} from "react";
 import "./App.scss";
-import {Routes, Route, useParams, BrowserRouter} from "react-router-dom";
+import {Routes, Route, useParams, BrowserRouter, Navigate} from "react-router-dom";
 import {initializeApp} from './redux/appReducer';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
@@ -19,9 +19,18 @@ const DialogsContainer = lazy(() => import("./components/Dialogs/DialogsContaine
 
 class App extends React.Component {
 
-	componentDidMount() {
-		this.props.initializeApp()
+	catchAllUnhandleError = (promiseRejectionEvent) => {
+		alert("some error");
+		console.error(promiseRejectionEvent)
 	};
+	componentDidMount() {
+		this.props.initializeApp();
+		window.addEventListener('unhandledrejection',this.catchAllUnhandleError)
+	};
+
+	componentWillUnmount() {
+		window.removeEventListener('unhandledrejection',this.catchAllUnhandleError)
+	}
 
 	render() {
 		if (!this.props.initialized) {
@@ -31,11 +40,11 @@ class App extends React.Component {
 			<div className="app-wrapper">
 				<HeaderContainer/>
 				<Navbar/>
-				<div className="app-wrapper-content">
-					<Suspense fallback={<Preloader/>}>
+				<Suspense fallback={<Preloader/>}>
+					<div className="app-wrapper-content">
 						<Routes>
 							<Route path="/dialogs" element={<DialogsContainer/>}/>
-							<Route path="/" element={<ProfileContainer/>}/>
+							<Route exact path="/" element={<Navigate replace to={"/profile"}/>}/>
 							<Route path="/profile" element={<ProfileContainer/>}>
 								<Route path=":userId" element={<ProfileContainer/>}/>
 							</Route>
@@ -44,14 +53,14 @@ class App extends React.Component {
 							<Route path="/music" element={<Music/>}/>
 							<Route path="/sett" element={<Sett/>}/>
 							<Route path="/login" element={<Login/>}/>
+							<Route path="*" element={<div>404 NOT FOUND</div>}/>
 						</Routes>
-					</Suspense>
-				</div>
+					</div>
+				</Suspense>
 			</div>
-		);
+		)
 	}
-
-};
+}
 
 const withRouter = WrappedComponent => props => {
 	const params = useParams();
