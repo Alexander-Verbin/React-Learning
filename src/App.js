@@ -1,7 +1,7 @@
 import React, {Suspense, lazy} from "react";
 import "./App.scss";
 import {Routes, Route, useParams, BrowserRouter, Navigate} from "react-router-dom";
-import {initializeApp} from './redux/appReducer';
+import {initializeApp} from './redux/appReducer.ts';
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
