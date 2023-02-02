@@ -1,5 +1,7 @@
 import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {PhotosType, PostType, ProfileType} from "../Types/Types";
+
 
 const ADD_POST = "ADD_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -7,15 +9,18 @@ const SET_STATUS = "SET_STATUS";
 const DELETE_STATUS = "DELETE_STATUS";
 const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 
-let initialState = {
+const initialState = {
 	posts: [
-		{id: 1, message: "Hi, how are you?", likesCount: "12"},
-		{id: 2, message: "It's my first post", likesCount: "23"},
-	],
-	profile: null,
+		{id: 1, message: "Hi, how are you?", likesCount: 12},
+		{id: 2, message: "It's my first post", likesCount: 23},
+	] as Array<PostType>,
+	profile: null as ProfileType | null,
 	status: "",
+	newPostText: ""
 };
-const profileReducer = (state = initialState, action) => {
+
+export type ProfileInitialStateType = typeof initialState
+const profileReducer = (state = initialState, action:any):ProfileInitialStateType => {
 	switch (action.type) {
 		case ADD_POST:
 			let newPost = {
@@ -46,60 +51,81 @@ const profileReducer = (state = initialState, action) => {
 		case SAVE_PHOTO_SUCCESS:
 			return {
 				...state,
-				profile: {...state.profile, photos: action.photos},
+				profile: {...state.profile, photos: action.photos} as ProfileType,
 			};
 		default:
 			return state;
 	}
 };
 
-export const addPostActionCreator = (newPostText) => {
+
+type AddPostActionCreatorType = {
+	type: typeof ADD_POST
+	newPostText: string
+}
+export const addPostActionCreator = (newPostText: string):AddPostActionCreatorType => {
 	return {
 		type: ADD_POST,
 		newPostText
 	};
 };
 
-export const setUserProfile = (profile) => {
+type SetUserProfileType = {
+	type: typeof SET_USER_PROFILE
+	profile: ProfileType
+}
+export const setUserProfile = (profile: ProfileType):SetUserProfileType => {
 	return {
 		type: SET_USER_PROFILE,
 		profile,
 	};
 };
 
-export const setStatus = (status) => {
+type SetStatusType = {
+	type: typeof SET_STATUS
+	status: string
+}
+export const setStatus = (status: string): SetStatusType => {
 	return {
 		type: SET_STATUS,
 		status
 	};
 };
 
-export const savePhotoSuccess = (photos) => {
+type SavePhotoSuccessType = {
+	type: typeof SAVE_PHOTO_SUCCESS
+	photos: PhotosType
+}
+export const savePhotoSuccess = (photos:PhotosType):SavePhotoSuccessType => {
 	return {
 		type: SAVE_PHOTO_SUCCESS,
 		photos
 	};
 };
 
-export const deletePost = (postId) => {
+type DeletePostType = {
+	type: typeof DELETE_STATUS
+	postId: number
+}
+export const deletePost = (postId: number):DeletePostType => {
 	return {
 		type: DELETE_STATUS,
 		postId
 	};
 };
 
-export const getUserProfile = (userId) => async (dispatch) => {
+export const getUserProfile = (userId: number) => async (dispatch: any) => {
 	let response = await profileAPI.getProfile(userId);
 	dispatch(setUserProfile(response.data));
 };
 
-export const getStatus = (userId) => async (dispatch) => {
+export const getStatus = (userId: number) => async (dispatch: any) => {
 	let response = await profileAPI.getStatus(userId);
 	dispatch(setStatus(response.data));
 
 };
 
-export const updateStatus = (status) => async (dispatch) => {
+export const updateStatus = (status: string) => async (dispatch: any) => {
 	try {
 		let response = await profileAPI.updateStatus(status);
 		if (response.data.resultCode === 0) {
@@ -111,14 +137,14 @@ export const updateStatus = (status) => async (dispatch) => {
 
 };
 
-export const savePhoto = (file) => async (dispatch) => {
+export const savePhoto = (file: any) => async (dispatch: any) => {
 	let response = await profileAPI.savePhoto(file);
 	if (response.data.resultCode === 0) {
 		dispatch(savePhotoSuccess(response.data.data.photos));
 	}
 };
 
-export const saveProfile = (profile) => async (dispatch,getState) => {
+export const saveProfile = (profile: ProfileType) => async (dispatch: any,getState: any) => {
 	const userId = getState().auth.userId
 	const response = await profileAPI.saveProfile(profile);
 	if (response.data.resultCode === 0) {
@@ -126,7 +152,7 @@ export const saveProfile = (profile) => async (dispatch,getState) => {
 	}else {
 		const errorMsg = response.data.messages[0];
 		let contactsName  = errorMsg.split('>')[1].split(')')[0] ;
-		let modified = contactsName.toLowerCase(); // toLowerCase() - перевод в низний регистр
+		let modified = contactsName.toLowerCase();
 		const action = stopSubmit('editProfile', { "contacts": { [modified]  : "Не верный формат " + contactsName } } );
 		dispatch(action);
 		return Promise.reject()

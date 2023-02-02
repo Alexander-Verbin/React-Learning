@@ -4,23 +4,16 @@ import {authAPI, securityAPI} from "../api/api";
 const SET_USER_DATA = "auth/SET_USER_DATA";
 const GET_CAPTCHA_URL_SUCCESS = "auth/GET_CAPTCHA_URL_SUCCESS";
 
-export type AuthInitialStateType = {
-	userId: number | null
-	email: string | null
-	login: string | null
-	isFetching: boolean
-	isAuth: boolean
-	captchaUrl: string | null
-}
+export type AuthInitialStateType = typeof initialState
 
 
-const initialState: AuthInitialStateType = {
-	userId: null,
-	email: null,
-	login: null,
+const initialState = {
+	userId: null as number | null,
+	email: null as string | null,
+	login: null as string | null,
 	isFetching: false,
 	isAuth: false,
-	captchaUrl: null
+	captchaUrl: null as string | null
 };
 const authReducer = (state = initialState, action: any): AuthInitialStateType => {
 	switch (action.type) {
