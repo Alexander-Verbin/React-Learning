@@ -60,7 +60,9 @@
     }
   },
   "devDependencies": {
+    "@types/node-sass": "^4.11.3",
     "gh-pages": "^5.0.0",
+    "node-sass": "^7.0.3",
     "react-test-renderer": "^18.2.0"
   }
 }
