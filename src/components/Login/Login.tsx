@@ -1,14 +1,32 @@
 import React from "react";
 import {connect} from "react-redux";
-import {reduxForm} from "redux-form";
+import {InjectedFormProps, reduxForm} from "redux-form";
 import {required} from "../../utils/validators/validators";
-import {createField, Input} from "../common/FormsControls/FormsControls";
+import {createField, Input, LoginFormValuesType} from "../common/FormsControls/FormsControls";
 import {login} from "../../redux/authReducer";
 import s from "./Login.module.scss";
 import {Navigate} from "react-router-dom";
+import {AppStateType} from "../../redux/reduxStore";
 
-const Login = (props) => {
-	const onSubmit = (formData) => {
+
+
+type MapStateType = {
+	isAuth: boolean,
+	captchaUrl: string | null
+}
+type MapDispatchType = {
+	login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
+}
+
+
+
+type LoginFormOwnPropsType = {
+	captchaUrl: string | null
+}
+
+
+const Login: React.FC<MapStateType & MapDispatchType & LoginFormOwnPropsType> = (props) => {
+	const onSubmit = (formData: LoginFormValuesType) => {
 		props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
 	};
 
@@ -23,13 +41,14 @@ const Login = (props) => {
 	);
 };
 
-const LoginForm = (props) => {
+
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType,LoginFormOwnPropsType> & LoginFormOwnPropsType> = (props) => {
 
 	return (
 		<form onSubmit={props.handleSubmit}>
 			{createField("email", "email", "email", Input, [required])}
 			{createField("password", "password", "password", Input, [required])}
-			{createField("checkbox", "rememberMe", null, Input, null, "Remember me")}
+			{createField("checkbox", "rememberMe", undefined, Input, undefined, "Remember me")}
 			{props.captchaUrl
 				? <div>
 					<div><img src={props.captchaUrl} alt="Captcha" className={s.captcha}/></div>
@@ -48,11 +67,11 @@ const LoginForm = (props) => {
 	);
 };
 
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFormValuesType,LoginFormOwnPropsType>({
 	form: 'login'
 })(LoginForm);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType):MapStateType => ({
 	isAuth: state.auth.isAuth,
 	captchaUrl: state.auth.captchaUrl
 });
